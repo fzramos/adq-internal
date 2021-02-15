@@ -1,7 +1,0 @@
-Add date type to column data type categorization
-Should we add memory usage stats to profile?
-Correlation/data comparison within column 
-
-Question: Are we focusing on making singular data profiles and putting them on SQL or are we comparing data profiles?
-Question: Should we be tagging the Data Profiles?
-Question: Should we work on graphing/visualizing the Data Profiles?

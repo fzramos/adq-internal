@@ -136,7 +136,7 @@ def data_profiling(file_path):
         print(result)
         result.to_csv('out.csv', index=False)
 
-
+        # in the result there are 2 count's, 2nd count is for numberic columns
         return result
 
 data_profiling('test.csv')
