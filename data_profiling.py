@@ -91,52 +91,65 @@ simplified('test.csv')
 # using relative path
 
 
-def data_profiling(file_path):
+def data_profiling(file_path, type_threshold = 0.5):
+    """
+    Get info about a csv table columns
+    Info includes column's name, data type, count, missing count, % missing, unique count, max and min length, and summary statistics if numeric column
 
-        data=pd.read_csv(file_path, sep=',')
+    Parameters
+    ----------
+    file_path: relative or absolute file path to the csv
+    type_threshold: % limit of columns with NaN rows if forced to datetime data type
 
-        # this is a DataFrame for where our summary statistics results go
-        result=pd.DataFrame(data.columns, columns=['Column Names'])
+    Returns
+    -------
+    Pandas dataframe containing each column's profile as a row
+    """
+    
+    data=pd.read_csv(file_path, sep=',')
 
-        types=[]
-        length=[]
-        missing=[]
-        percent_missing=[]
-        unique_count=[]
+    # this is a DataFrame for where our summary statistics results go
+    result=pd.DataFrame(data.columns, columns=['Column Names'])
 
-        max_length=list(dict([(v, data[v].apply(lambda r: len(str(r)) if r!=None else 0).max())for v in data.columns.values]).values())
-        min_length=list(dict([(v, data[v].apply(lambda r: len(str(r)) if r!=None else 0).min())for v in data.columns.values]).values())
-        for i in data.dtypes:
-            if str(i) == "int64":
-                types.append("int")
-            elif str(i) == "float64":
-                types.append("float")
-            elif str(i) == "object":
-                types.append("string")
-        for i in data.columns:
-            length.append(len(data[i]))
-            missing.append(data[i].isna().sum())
-            percent_missing.append(data[i].isna().sum()/len(data[i]))
-            unique_count.append(data[i].nunique())
+    types=[]
+    length=[]
+    missing=[]
+    percent_missing=[]
+    unique_count=[]
 
-        result["Data_Types"]=types
-        result["Count"]=length
-        result["Missing"]=missing
-        result["Percent_Missing"]=percent_missing
-        result["Unique_Count"]=unique_count
-        result["Max_Length"]=max_length
-        result["Min_Length"]=min_length
-        #result["Mean"]=mean_val
+    max_length=list(dict([(v, data[v].apply(lambda r: len(str(r)) if r!=None else 0).max())for v in data.columns.values]).values())
+    min_length=list(dict([(v, data[v].apply(lambda r: len(str(r)) if r!=None else 0).min())for v in data.columns.values]).values())
+    for i in data.dtypes:
+        if str(i) == "int64":
+            types.append("int")
+        elif str(i) == "float64":
+            types.append("float")
+        elif str(i) == "object":
+            types.append("string")
+    for i in data.columns:
+        length.append(len(data[i]))
+        missing.append(data[i].isna().sum())
+        percent_missing.append(data[i].isna().sum()/len(data[i]))
+        unique_count.append(data[i].nunique())
 
-        des=data.describe().transpose()
+    result["Data_Types"]=types
+    result["Count"]=length
+    result["Missing"]=missing
+    result["Percent_Missing"]=percent_missing
+    result["Unique_Count"]=unique_count
+    result["Max_Length"]=max_length
+    result["Min_Length"]=min_length
+    #result["Mean"]=mean_val
 
-        result=result.set_index('Column Names').join(des)
-        column_name=result.index.values
-        result.insert(loc=0,column="Column_Name",value=column_name)
-        print(result)
-        result.to_csv('out.csv', index=False)
+    des=data.describe().transpose()
 
-        # in the result there are 2 count's, 2nd count is for numberic columns
-        return result
+    result=result.set_index('Column Names').join(des)
+    column_name=result.index.values
+    result.insert(loc=0,column="Column_Name",value=column_name)
+    print(result)
+    result.to_csv('out.csv', index=False)
+
+    # in the result there are 2 count's, 2nd count is for numberic columns
+    return result
 
 data_profiling('test.csv')
