@@ -87,7 +87,7 @@ def simplified(file_path):
         missing.append(result[i].isna().sum())
 
     print(missing)
-simplified('test.csv')
+# simplified('test.csv')
 # using relative path
 
 
@@ -105,7 +105,8 @@ def data_profiling(file_path, type_threshold = 0.5):
     -------
     Pandas dataframe containing each column's profile as a row
     """
-    
+    # Maybe add a sample size % parameter if incoming tables very very large
+
     data=pd.read_csv(file_path, sep=',')
 
     # this is a DataFrame for where our summary statistics results go
@@ -119,13 +120,35 @@ def data_profiling(file_path, type_threshold = 0.5):
 
     max_length=list(dict([(v, data[v].apply(lambda r: len(str(r)) if r!=None else 0).max())for v in data.columns.values]).values())
     min_length=list(dict([(v, data[v].apply(lambda r: len(str(r)) if r!=None else 0).min())for v in data.columns.values]).values())
-    for i in data.dtypes:
-        if str(i) == "int64":
+    # for i in data.dtypes:
+    #     if str(i) == "int64":
+    #         types.append("int")
+    #     elif str(i) == "float64":
+    #         types.append("float")
+    #     elif (str(i) == "object") or (str(i) == 'bool'):
+    #         date_sample = pd.to_datetime(data, errors='coerce')
+    #         types.append("string")
+
+    # column type inferring
+    for col in data.columns:
+        if (data.dtypes[col] == 'object') or (data.dtypes[col] == 'bool'):
+            # attempting to cast the column as datetime type            
+            col_date_cast = pd.to_datetime(data[col], errors='coerce')
+            date_nan_per = np.sum(pd.isnull(col_date_cast)) * 1.0 / len(col_date_cast)
+            if date_nan_per < (1.0 - type_threshold):
+                types.append("datetime")
+            else:
+                types.append("str")
+        elif data.dtypes[col] == 'datetime64':
+            types.append("datetime")
+        elif data.dtypes[col] == "int64":
             types.append("int")
-        elif str(i) == "float64":
+        elif data.dtypes[col] == "float64":
             types.append("float")
-        elif str(i) == "object":
-            types.append("string")
+        else:
+            types.append("error")
+        # Maybe add else: error in typing
+
     for i in data.columns:
         length.append(len(data[i]))
         missing.append(data[i].isna().sum())
@@ -141,7 +164,8 @@ def data_profiling(file_path, type_threshold = 0.5):
     result["Min_Length"]=min_length
     #result["Mean"]=mean_val
 
-    des=data.describe().transpose()
+    # adding summary stats (except for count stat which has already been added to result df)
+    des=data.describe()[1:].transpose()
 
     result=result.set_index('Column Names').join(des)
     column_name=result.index.values

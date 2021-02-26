@@ -13,12 +13,12 @@ Question: Should we be tagging the Data Profiles?
 Question: Should we work on graphing/visualizing the Data Profiles?
 
 ## 02/15/2020  
-- Meet with Twinkle: Tell her to use nice UI templates and to look at DataBuck for an idea of end goal
+- COMPLETED: Meet with Twinkle: Tell her to use nice UI templates and to look at DataBuck for an idea of end goal
     - Tell her were going to make a API for the front end UI to pull the data from
-- Look for new 2-3 good Kaggle datasets for sample data testing (probably Banking datasets)
-- Add code to data_profile for date type checking
+- COMPLETED: Look for new 2-3 good Kaggle datasets for sample data testing (probably Banking datasets)
+- COMPLETED: Add code to data_profile for date type checking
 - Research to see if correlation coefficient is added in other ADQ examples online
-- Remove 2nd 'count' column from data_profile output
+- COMPLETED: Remove 2nd 'count' column from data_profile output
 - Build database in Snowflake
 - Connect program to Snowflake database and send data profiles there
 
