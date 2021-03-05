@@ -25,22 +25,22 @@ Question: Should we work on graphing/visualizing the Data Profiles?
 ## 3/1/21
 - Test Kaggle datasets with code
     * completedacct works
-    * completedcard doesn't work
+    * completedcard works
     * completedclient works
-    * completeddisposition works BUT ISSUE
-        - PROBLEM: Abnormal columns created from .describe() summary stats
-        - I think its becuase all the columns are string data type
+    * completeddisposition works
     * completeddistrict works
     * completedloan works
     * completedorder works
     * completedtrans FAILS
-        DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
+        - DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
+        - Problem: Pandas takes way too long to type check the columns
+        - even takes too long with low_memory=False
     * CRM Call Center Logs works
-    * CRM Events has an issue
-        - Column 'Sub-issue' is a FLOAT but no summary stats like min and max?
-        - Other float column in other datasets do show summary stats, strange
+    * CRM Events works with an issue
+        - Column 'Sub-issue' is a FLOAT but no summary stats because it is a completely empty column
+        - TODO Should empty columns have a type?
     * CRM Reviews FAILS
-        - Fail for unicode error? Hope this is an error on Kaggle datasets end
+        - Fail for unicode error? This is an error with DataSet, not code
     * LuxuryLoanPortfolio works
 
 

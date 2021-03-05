@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 
 def main():
-    data_profiling('retail_banking/completedcard.csv')
+    data_profiling('retail_banking/completedtrans.csv')
 
 def data_profiling(file_path, type_threshold = 0.5):
     """
@@ -67,11 +67,16 @@ def data_profiling(file_path, type_threshold = 0.5):
     result["Min_Length"]=min_length
 
     # list of dtypes to include, types to analyze with describe 
-    include =['float', 'int'] 
+    # TODO include more numeric dtypes?
+    include =['float64', 'int64', 'Int8', 'Int16', 'Int32', 'UInt8', 'UInt16', 'UInt32', 'UInt64'] 
 
     # adding summary stats (except for count stat which has already been added to result df)
-    des=data.describe(include = include)[1:].transpose()
-
+    try:
+        des=data.describe(include = include)[1:].transpose()
+    except:
+        # if no int, float columns, creating empty summary stats columns for profile
+        des = pd.DataFrame(columns=['mean', 'std', 'min', '25%', '50%', '75%', 'max'])
+    
     result=result.set_index('Column Names').join(des)
     column_name=result.index.values
     result.insert(loc=0,column="Column_Name",value=column_name)
