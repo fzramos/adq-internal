@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 
 def main():
-    # works
     data_profiling('retail_banking/completedcard.csv')
 
 def data_profiling(file_path, type_threshold = 0.5):
@@ -23,7 +22,7 @@ def data_profiling(file_path, type_threshold = 0.5):
 
     data=pd.read_csv(file_path, sep=',')
 
-    # this is a DataFrame for where our summary statistics results go
+    # this is a DataFrame where our summary statistics results go
     result=pd.DataFrame(data.columns, columns=['Column Names'])
 
     types=[]
@@ -59,12 +58,6 @@ def data_profiling(file_path, type_threshold = 0.5):
         percent_missing.append(data[col].isna().sum()/len(data[col]))
         unique_count.append(data[col].nunique())
 
-    # for i in data.columns:
-    #     length.append(len(data[i]))
-    #     missing.append(data[i].isna().sum())
-    #     percent_missing.append(data[i].isna().sum()/len(data[i]))
-    #     unique_count.append(data[i].nunique())
-
     result["Data_Types"]=types
     result["Count"]=length
     result["Missing"]=missing
@@ -72,7 +65,6 @@ def data_profiling(file_path, type_threshold = 0.5):
     result["Unique_Count"]=unique_count
     result["Max_Length"]=max_length
     result["Min_Length"]=min_length
-    #result["Mean"]=mean_val
 
     # list of dtypes to include, types to analyze with describe 
     include =['float', 'int'] 
@@ -83,10 +75,9 @@ def data_profiling(file_path, type_threshold = 0.5):
     result=result.set_index('Column Names').join(des)
     column_name=result.index.values
     result.insert(loc=0,column="Column_Name",value=column_name)
+    
     print(result)
     result.to_csv('out.csv', index=False)
-
-    # in the result there are 2 count's, 2nd count is for numberic columns
     return result
 
 main()
