@@ -22,6 +22,27 @@ Question: Should we work on graphing/visualizing the Data Profiles?
 - Build database in Snowflake
 - Connect program to Snowflake database and send data profiles there
 
+## 3/1/21
+- Test Kaggle datasets with code
+    * completedacct works
+    * completedcard works
+    * completedclient works
+    * completeddisposition works BUT ISSUE
+        - PROBLEM: Abnormal columns created from .describe() summary stats
+        - I think its becuase all the columns are string data type
+    * completeddistrict works
+    * completedloan works
+    * completedorder works
+    * completedtrans FAILS
+        DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
+    * CRM Call Center Logs works
+    * CRM Events has an issue
+        - Column 'Sub-issue' is a FLOAT but no summary stats like min and max?
+        - Other float column in other datasets do show summary stats, strange
+    * CRM Reviews FAILS
+        - Fail for unicode error? Hope this is an error on Kaggle datasets end
+    * LuxuryLoanPortfolio works
+
 
 
 

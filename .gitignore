@@ -1,3 +1,4 @@
 *.csv
 .vscode
 date_tester.py
+.env
