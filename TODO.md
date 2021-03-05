@@ -25,7 +25,7 @@ Question: Should we work on graphing/visualizing the Data Profiles?
 ## 3/1/21
 - Test Kaggle datasets with code
     * completedacct works
-    * completedcard works
+    * completedcard doesn't work
     * completedclient works
     * completeddisposition works BUT ISSUE
         - PROBLEM: Abnormal columns created from .describe() summary stats
