@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 
 def main():
-    data_profiling('retail_banking/completedtrans.csv')
+    data_profiling('retail_banking/CRM Events.csv')
 
 def data_profiling(file_path, type_threshold = 0.5):
     """

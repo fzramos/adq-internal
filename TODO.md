@@ -33,16 +33,20 @@ Question: Should we work on graphing/visualizing the Data Profiles?
     * completedorder works
     * completedtrans FAILS
         - DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
-        - Problem: Pandas takes way too long to type check the columns
+        - Problem: CSV too large so Pandas takes way too long to type check the columns
         - even takes too long with low_memory=False
+        - Solution: Don't worry abot this for now
     * CRM Call Center Logs works
     * CRM Events works with an issue
-        - Column 'Sub-issue' is a FLOAT but no summary stats because it is a completely empty column
-        - TODO Should empty columns have a type?
-    * CRM Reviews FAILS
+        - Column 'Sub-issue' is a FLOAT but the column has all NULL values
+    * CRM Reviews fails but not our fault
         - Fail for unicode error? This is an error with DataSet, not code
     * LuxuryLoanPortfolio works
 
-
+# 3/5/21
+* Create Snowflake db based on ERD
+* Connect program to ERD
+* Set up code so program uploads data profiles to Snowflake db and fills out
+    appropriate tables
 
 
