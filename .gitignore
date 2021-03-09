@@ -2,3 +2,5 @@
 .vscode
 date_tester.py
 .env
+sfInfo.py
+__pycache__

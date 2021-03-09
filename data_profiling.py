@@ -1,9 +1,11 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from sfInfo import acct
 
-def main():
-    data_profiling('retail_banking/CRM Events.csv')
+def test():
+    # Only runs if this file is run. Tests data_profile function 
+    data_profiling('retail_banking/completedacct.csv')
 
 def data_profiling(file_path, type_threshold = 0.5):
     """
@@ -85,4 +87,5 @@ def data_profiling(file_path, type_threshold = 0.5):
     result.to_csv('out.csv', index=False)
     return result
 
-main()
+if __name__ == "__main__":
+    test()
