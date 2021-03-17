@@ -60,13 +60,13 @@ def data_profiling(file_path, type_threshold = 0.5):
         percent_missing.append(data[col].isna().sum()/len(data[col]))
         unique_count.append(data[col].nunique())
 
-    result["Data_Types"]=types
-    result["Count"]=length
-    result["Missing"]=missing
-    result["Percent_Missing"]=percent_missing
-    result["Unique_Count"]=unique_count
-    result["Max_Length"]=max_length
-    result["Min_Length"]=min_length
+    result["data_types"]=types
+    result["count"]=length
+    result["missing"]=missing
+    result["percent_missing"]=percent_missing
+    result["unique_count"]=unique_count
+    result["max_length"]=max_length
+    result["min_length"]=min_length
 
     # list of dtypes to include, types to analyze with describe 
     # TODO include more numeric dtypes?

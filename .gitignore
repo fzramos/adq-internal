@@ -3,4 +3,5 @@
 date_tester.py
 .env
 sfInfo.py
+sfCredentials.py
 __pycache__

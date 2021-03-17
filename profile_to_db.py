@@ -1,6 +1,6 @@
 import pandas as pd
-# for Snowflake Account Credentials
-from sfInfo import acct
+# Imports SF Acct Sign-in Credentials
+from sfCredentials import acct
 # For Snowflake DB Connection
 from snowflake.sqlalchemy import URL
 from sqlalchemy import create_engine
@@ -17,7 +17,7 @@ def profile_to_db(dp_df):
         database = 'ADQ',
         schema = 'PUBLIC',
         warehouse = 'COMPUTE_WH',
-        role='SYSADMIN',
+        role='SYSADMIN'
     ))
     connection = engine.connect()
     try:
