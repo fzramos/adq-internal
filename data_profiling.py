@@ -85,7 +85,7 @@ def data_profiling(file_path, type_threshold = 0.5):
     # result.reset_index(drop=True, inplace=True)
 
     print(result)
-    result.to_csv('out.csv', index=False)
+    # result.to_csv('out.csv', index=False)
     return result
 
 if __name__ == "__main__":
