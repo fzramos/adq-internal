@@ -34,7 +34,17 @@ CREATE OR REPLACE TRANSIENT TABLE column_profile (
   mean float,
   "std" float,
   "min" float,
-  "25%" float,
-  "75%" float,
+  perc25 float,
+  perc50 float,
+  perc75 float,
   "max" float
 );
+
+// trying to insert new data_profile into table
+INSERT INTO data_profile(parent_id) VALUES (0);
+
+//dp_id integer PRIMARY KEY DEFAULT dp_id_seq.nextval, -- auto incrementing IDs   
+//  parent_id integer DEFAULT 0 ,
+//  created_at timestamp DEFAULT current_timestamp()
+
+SELECT * FROM data_profile;

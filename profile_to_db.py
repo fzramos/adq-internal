@@ -4,6 +4,9 @@ from sfCredentials import acct
 # For Snowflake DB Connection
 from snowflake.sqlalchemy import URL
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+# models of tables for upload
+from models import DataProfile, ColumnProfile
 
 def test():
     data = pd.read_csv('dummy_profile.csv', sep=',')
@@ -19,13 +22,17 @@ def profile_to_db(dp_df):
         warehouse = 'COMPUTE_WH',
         role='SYSADMIN'
     ))
-    connection = engine.connect()
+
+    session = sessionmaker(bind=engine)()
+
+    # connection = engine.connect()
     try:
         # connection.execute(<SQL>)
-        results = connection.execute('select current_version()').fetchone()
-        print(results[0])
+        newRow = DataProfile()
+        session.add(newRow)
+        session.commit()
     finally:
-        connection.close()
+        # connection.close()
         engine.dispose()
 
 if __name__ == "__main__":
