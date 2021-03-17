@@ -13,6 +13,7 @@ def test():
     profile_to_db(data)
 
 def profile_to_db(dp_df):
+    # TODO add parameters for parent_table_id and owner_id/user_id
     engine = create_engine(URL(
         account = acct['SNOWFLAKE_ACCOUNT'],
         user = acct['SNOWFLAKE_USER'],
@@ -25,12 +26,19 @@ def profile_to_db(dp_df):
 
     session = sessionmaker(bind=engine)()
 
-    # connection = engine.connect()
     try:
-        # connection.execute(<SQL>)
-        newRow = DataProfile()
-        session.add(newRow)
+        # Creating a new data profile row in the data_profile table
+        # TODO parent_id = some number
+        newProfile = DataProfile()
+        # Note, newProfile dp_id isn't created until commited since SF creates the value on insert
+        session.add(newProfile)
         session.commit()
+        
+        # Adding data profile rows to column_profile table with a new column of dp_id
+        # so rows are related by their new data profile id 
+        dp_df["dp_id"] = newProfile.dp_id
+        dp_df.to_sql('column_profile', engine, if_exists='append', index=False)
+
     finally:
         # connection.close()
         engine.dispose()

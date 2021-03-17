@@ -3,7 +3,6 @@ from sqlalchemy import Column, Integer, String, Float, Sequence, DateTime, Forei
 import datetime
 from sqlalchemy.orm import relationship
 
-
 Base = declarative_base()
 
 class DataProfile(Base):

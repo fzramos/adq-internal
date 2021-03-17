@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from sfInfo import acct
 
 def test():
     # Only runs if this file is run. Tests data_profile function 
@@ -60,8 +59,8 @@ def data_profiling(file_path, type_threshold = 0.5):
         percent_missing.append(data[col].isna().sum()/len(data[col]))
         unique_count.append(data[col].nunique())
 
-    result["data_types"]=types
-    result["count"]=length
+    result["data_type"]=types
+    result["value_count"]=length
     result["missing"]=missing
     result["percent_missing"]=percent_missing
     result["unique_count"]=unique_count
@@ -78,11 +77,13 @@ def data_profiling(file_path, type_threshold = 0.5):
     except:
         # if no int, float columns, creating empty summary stats columns for profile
         des = pd.DataFrame(columns=['mean', 'std', 'min', '25%', '50%', '75%', 'max'])
-    
+    # renaming percentage column headers
+    des.rename({'25%': 'perc25', '50%': 'perc50', '75%': 'perc75', 'std': 'stdev', 'min': 'minimum', 'max': 'maximum'}, axis=1, inplace=True)
     result=result.set_index('Column Names').join(des)
     column_name=result.index.values
-    result.insert(loc=0,column="Column_Name",value=column_name)
-    
+    result.insert(loc=0,column="column_name",value=column_name)
+    # result.reset_index(drop=True, inplace=True)
+
     print(result)
     result.to_csv('out.csv', index=False)
     return result

@@ -8,3 +8,4 @@ def main():
     # upload profile to Snowflake
     profile_to_db(dp_df)
 
+main()
