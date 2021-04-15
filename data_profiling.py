@@ -37,22 +37,26 @@ def data_profiling(file_path, type_threshold = 0.5):
 
     for col in data.columns:
         # column type inferring
+        # TODO: 
+        # Using numbers because on data profile upload to DB this column refer to foreign keys of a data type table 
+        # { 'int': 0, 'float': 1, 'str': 2, 'datetime': 3, 'error': 4}
         if (data.dtypes[col] == 'object') or (data.dtypes[col] == 'bool'):
             # attempting to cast the column as datetime type            
             col_date_cast = pd.to_datetime(data[col], errors='coerce')
             date_nan_per = np.sum(pd.isnull(col_date_cast)) * 1.0 / len(col_date_cast)
             if date_nan_per < (1.0 - type_threshold):
-                types.append("datetime")
+                types.append(3) # datetime
             else:
-                types.append("str")
+                types.append(2) # str
         elif data.dtypes[col] == 'datetime64':
-            types.append("datetime")
+            types.append(3) # datetime
         elif data.dtypes[col] == "int64":
-            types.append("int")
+            types.append(0) # int
         elif data.dtypes[col] == "float64":
-            types.append("float")
+            types.append(1) # float
         else:
-            types.append("error")
+            types.append(4) # error
+        
         # additional analysis for data profile
         length.append(len(data[col]))
         missing.append(data[col].isna().sum())
