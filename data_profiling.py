@@ -4,7 +4,8 @@ import seaborn as sns
 
 def test():
     # Only runs if this file is run. Tests data_profile function 
-    data_profiling('retail_banking/completedacct.csv')
+    result_df = data_profiling('retail_banking/completedacct.csv')
+    result_df.to_csv('out.csv', index=False)
 
 def data_profiling(file_path, type_threshold = 0.5):
     """
@@ -37,7 +38,6 @@ def data_profiling(file_path, type_threshold = 0.5):
 
     for col in data.columns:
         # column type inferring
-        # TODO: 
         # Using numbers because on data profile upload to DB this column refer to foreign keys of a data type table 
         # { 'int': 0, 'float': 1, 'str': 2, 'datetime': 3, 'error': 4}
         if (data.dtypes[col] == 'object') or (data.dtypes[col] == 'bool'):
@@ -86,10 +86,9 @@ def data_profiling(file_path, type_threshold = 0.5):
     result=result.set_index('Column Names').join(des)
     column_name=result.index.values
     result.insert(loc=0,column="column_name",value=column_name)
-    # result.reset_index(drop=True, inplace=True)
 
-    print(result)
-    # result.to_csv('out.csv', index=False)
+    # print(result)
+    print('Data profile created successfully.')
     return result
 
 if __name__ == "__main__":
