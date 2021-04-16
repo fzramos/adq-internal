@@ -63,7 +63,7 @@ def data_profiling(file_path, type_threshold = 0.5):
         percent_missing.append(data[col].isna().sum()/len(data[col]))
         unique_count.append(data[col].nunique())
 
-    result["data_type"]=types
+    result["type_id"]=types
     result["value_count"]=length
     result["missing"]=missing
     result["percent_missing"]=percent_missing
