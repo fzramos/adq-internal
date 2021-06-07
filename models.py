@@ -8,7 +8,7 @@ Base = declarative_base()
 class DataProfile(Base):
     __tablename__ = "data_profile"
     dp_id = Column(Integer, Sequence('dp_id_seq'), primary_key=True)
-    parent_id = Column(Integer, ForeignKey("parent.parent_id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     # relationships
@@ -51,12 +51,12 @@ class User(Base):
     name = Column(Integer)
 
     # relationships
-    parent_id = relationship('Parent', backref='owner', lazy = True)
+    dp_id = relationship('DataProfile', backref='owner', lazy = True)
 
-class Parent(Base):
-    __tablename__ = "parent"
-    parent_id = Column(Integer, Sequence('parent_id_seq'), primary_key=True)
-    owner_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
+# class Parent(Base):
+#     __tablename__ = "parent"
+#     parent_id = Column(Integer, Sequence('parent_id_seq'), primary_key=True)
+#     owner_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
     
-    # relationships
-    dp_id = relationship('DataProfile', backref='parent_table', lazy = True)
+#     # relationships
+#     dp_id = relationship('DataProfile', backref='parent_table', lazy = True)

@@ -6,18 +6,19 @@ from snowflake.sqlalchemy import URL
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 # models of tables for upload
-from models import DataProfile, ColumnProfile, Parent, DataType
+from models import DataProfile, ColumnProfile, DataType
+from config import Config
 
 def test():
     data = pd.read_csv('dummy_profile.csv', sep=',')
-    profile_to_db(data, parent_id=None, user_id=0)
+    profile_to_db(data, user_id=0)
 
-def profile_to_db(dp_df, parent_id, user_id):
-    # TODO add parameters for parent_table_id and owner_id/user_id
+def profile_to_db(dp_df, user_id):
+    db_config = Config()
     engine = create_engine(URL(
-        account = acct['SNOWFLAKE_ACCOUNT'],
-        user = acct['SNOWFLAKE_USER'],
-        password = acct['SNOWFLAKE_PASSWORD'],
+        account = db_config.SNOWFLAKE_ACCOUNT,
+        user = db_config.SNOWFLAKE_USER,
+        password = db_config.SNOWFLAKE_PASSWORD,
         database = 'ADQ',
         schema = 'PUBLIC',
         warehouse = 'COMPUTE_WH',
@@ -27,13 +28,8 @@ def profile_to_db(dp_df, parent_id, user_id):
     session = sessionmaker(bind=engine)()
 
     try:
-        if parent_id is None:
-            newParent = Parent(owner_id=user_id)
-            session.add(newParent)
-            session.commit()
-            parent_id = newParent.parent_id
         # Creating a new data profile row in the data_profile table
-        newProfile = DataProfile(parent_id = parent_id)
+        newProfile = DataProfile(user_id = user_id)
         # Note, newProfile dp_id isn't created until commited since SF creates the value on insert
         session.add(newProfile)
 

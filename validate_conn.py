@@ -2,13 +2,15 @@
 from sfCredentials import acct
 from sqlalchemy import create_engine
 from snowflake.sqlalchemy import URL
+from config import Config
 
+db_config = Config()
 # If this program prints a version number (EX: 5.7.6) then the connection to a SF account works
 
 engine = create_engine(URL(
-        account = acct['SNOWFLAKE_ACCOUNT'],
-        user = acct['SNOWFLAKE_USER'],
-        password = acct['SNOWFLAKE_PASSWORD'],
+        account = db_config.SNOWFLAKE_ACCOUNT,
+        user = db_config.SNOWFLAKE_USER,
+        password = db_config.SNOWFLAKE_PASSWORD,
         database = 'ADQ',
         schema = 'PUBLIC',
         warehouse = 'COMPUTE_WH',
