@@ -5,3 +5,5 @@ date_tester.py
 sfInfo.py
 sfCredentials.py
 __pycache__
+alembic
+alembic.ini

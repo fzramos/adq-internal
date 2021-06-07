@@ -24,6 +24,15 @@ def profile_to_db(dp_df, user_id):
         warehouse = 'COMPUTE_WH',
         role='SYSADMIN'
     ))
+    URL(
+        account = db_config.SNOWFLAKE_ACCOUNT,
+        user = db_config.SNOWFLAKE_USER,
+        password = db_config.SNOWFLAKE_PASSWORD,
+        database = 'ADQ',
+        schema = 'PUBLIC',
+        warehouse = 'COMPUTE_WH',
+        role='SYSADMIN'
+    )
 
     session = sessionmaker(bind=engine)()
 

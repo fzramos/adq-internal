@@ -4,6 +4,7 @@ import datetime
 from sqlalchemy.orm import relationship
 
 Base = declarative_base()
+metadata = Base.metadata
 
 class DataProfile(Base):
     __tablename__ = "data_profile"
@@ -20,7 +21,7 @@ class ColumnProfile(Base):
     cp_id = Column(Integer, Sequence('cp_id_seq'), primary_key=True)
     dp_id = Column(Integer, ForeignKey("data_profile.dp_id"), nullable=False)
     column_name = Column(String(100))
-    data_type = Column(Integer, ForeignKey("date_type.type_id"), nullable=False)
+    data_type = Column(Integer, ForeignKey("data_type.type_id"), nullable=False)
     count = Column(Integer)
     missing = Column(Integer)
     percent_missing = Column(Float)
