@@ -7,3 +7,4 @@ sfCredentials.py
 __pycache__
 alembic
 alembic.ini
+*.db

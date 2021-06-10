@@ -5,6 +5,9 @@ def main():
     #  file path of data in csv format
     file_path = 'retail_banking/completedcard.csv'
     
+    # RDBMS type
+    db_type = 'sqlite'
+
     # Id of the user/owner of account that submitted this data for profiling
     # Assuming user id has already been added to User table
     user_id = 0 
@@ -13,6 +16,6 @@ def main():
     dp_df = data_profiling(file_path)
 
     # upload profile to Snowflake
-    profile_to_db(dp_df, user_id)
+    profile_to_db(dp_df, user_id, db_type)
 
 main()

@@ -10,21 +10,57 @@ This program ingests a CSV table, creates data profiles of each column of the ta
 * main.py: Uses functions from "data_profiling.py" and "profile_to_db.py" to both create a data profile from a CSV file and uploads the data profile to your Snowflake account.
 
 ## Steps to get up and running
-1. pip install -r requirements.txt
-2. Unzip retail_banking.zip for sample CSV table files
-3. Create "sfCredentials.py" with your snowflake account credentials
-    - Format of file: 
-        acct = {
-            'SNOWFLAKE_ACCOUNT': 'account_id.region.cloud_provider',
-            'SNOWFLAKE_USER': 'username',
-            'SNOWFLAKE_PASSWORD': 'password'
-        }
-4. Run the "validate_conn.py" program to make sure the Snowflake account credentials you added are valid
-5. In your Snowflake account, run the "sf_db_setup.sql" script in a new worksheet to get the landing databases, tables, and sequences set up for the program
-6. Run "main.py" to send a data profile to your Snowflake account
-7. In a Snowflake Worksheet, run some select statements to see if the data has been uploaded successfully
+### PART 1: Set up the Database Schema for data profile upload
+- Note: This program can upload to a variety of RDBMS including Snowflake, SQLite3
+1. In command line, paste and run the command
+```shell
+pip install -r requirements.txt
+```
+2. Add a .env file to the project root with this format and your DB credentials:
+```
+SNOWFLAKE_ACCOUNT=xxxxx
+SNOWFLAKE_USER=xxxxx
+SNOWFLAKE_PASSWORD=xxxx
+```
+3. In your RDBMS of choice, create an empty database called ADQ
+    - for a Snowflake set-up
+        * See sql_commands.sql for necessary SQL commands
+    - for SQLite3 set-up
+        * Simply add an ADQ.db file to the project root
+4. If using Snowflake as your RDBMS, run run the "validate_conn.py" program to make sure the Snowflake account credentials in your .env file are valid
+3. In db_setup.py, change the line 6 argument to one of:
+    - 'snowflake'
+    - 'postgres'
+    - 'sqlite'
+4. Run db_setup.py
+5. If this fails and you can't debug the issue, follow the instructions for "Manual Alembic Set-up". Alternatively, you can run the "sf_db_setup.sql" script in a new worksheet to get the landing databases, tables, and sequences set up for the program.
 
-## Working with Alembic
+## PART 2: Create data drofiles and upload them to DB
+1. Unzip retail_banking.zip for sample CSV table files
+2. Run "main.py" which both creates data profiles and uploads them to your RDBMS of choice.
+3. In your RDBMS, run some select statements to see if the data has been uploaded successfully. For example:
+```sql
+// Run these to see if data profiles have been sucessfully uploaded
+SELECT * FROM user;
+SELECT * FROM data_profile;
+SELECT * FROM column_profile;
+SELECT * FROM data_type;
+
+// See all data profiles connected to a user
+SELECT u.user_id, dp.dp_id, c.COLUMN_NAME, dt.name AS "data_type", c.VALUE_COUNT, c.MISSING, 
+c.PERCENT_MISSING, c.UNIQUE_COUNT, c.MAX_LENGTH, c.MIN_LENGTH, c.STDEV, c.MINIMUM, c.PERC25,
+c.PERC50, c.PERC75, c.MAXIMUM
+FROM column_profile c
+JOIN data_type dt
+ON c.type_id = dt.type_id
+JOIN data_profile dp
+ON dp.dp_id = c.dp_id
+JOIN user u
+ON u.user_id = dp.user_id
+WHERE u.user_id = 0;
+```
+
+## OPTIONAL: Manual Alembic Set-up
 - Purpose: Ultimate goal is to generalize this program so it will run on multiple types DBs (Snowflake, SQLite, PostgreSQL, etc). Key step to doing this is setting up the DB schema, tables in whatever type of DB it is. Alembic lets you use SQLAlchemy models of the tables you want for the schema then relatively easily use command line to create the schema on a variety of types of DBs. I want to use this fact to 1. Make a simple program to set up whatever type of DB you want (that is compatible with Alembic) 2. Then I can easily make a "create_engine" file that create an engine for whatever type of DB you want. 
 1. In the project root in Anaconda Powershell
 ```shell
@@ -34,7 +70,7 @@ alembic init alembic
 - Note that this is used in "profile_to_db" in the create_engine function call
 3. In "alembic/env.py", add lines
 ```python
-from model import Base
+from models import Base
 target_metadata = [Base.metadata]
 ```
 4. In "alembic/env.py", comment out line
@@ -53,4 +89,3 @@ class SnowflakeImpl(DefaultImpl):
 alembic revision --autogenerate -m “First commit”
 alembic upgrade head
 ```
-#### NOTE: I will likely make a simple program that will ideally run all of these commands (terminal commands and writing to Alembic files). And it will have customized functions for several database types

@@ -8,31 +8,14 @@ from sqlalchemy.orm import sessionmaker
 # models of tables for upload
 from models import DataProfile, ColumnProfile, DataType
 from config import Config
+from db_url import create_db_url
 
 def test():
     data = pd.read_csv('dummy_profile.csv', sep=',')
-    profile_to_db(data, user_id=0)
+    profile_to_db(data, 0, 'snowflake')
 
-def profile_to_db(dp_df, user_id):
-    db_config = Config()
-    engine = create_engine(URL(
-        account = db_config.SNOWFLAKE_ACCOUNT,
-        user = db_config.SNOWFLAKE_USER,
-        password = db_config.SNOWFLAKE_PASSWORD,
-        database = 'ADQ',
-        schema = 'PUBLIC',
-        warehouse = 'COMPUTE_WH',
-        role='SYSADMIN'
-    ))
-    URL(
-        account = db_config.SNOWFLAKE_ACCOUNT,
-        user = db_config.SNOWFLAKE_USER,
-        password = db_config.SNOWFLAKE_PASSWORD,
-        database = 'ADQ',
-        schema = 'PUBLIC',
-        warehouse = 'COMPUTE_WH',
-        role='SYSADMIN'
-    )
+def profile_to_db(dp_df, user_id, db_type):
+    engine = create_engine(create_db_url(db_type))
 
     session = sessionmaker(bind=engine)()
 
