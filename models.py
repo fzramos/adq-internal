@@ -21,22 +21,21 @@ class ColumnProfile(Base):
     cp_id = Column(Integer, Sequence('cp_id_seq'), primary_key=True)
     dp_id = Column(Integer, ForeignKey("data_profile.dp_id"), nullable=False)
     column_name = Column(String(100))
-    data_type = Column(Integer, ForeignKey("data_type.type_id"), nullable=False)
-    count = Column(Integer)
+    type_id = Column(Integer, ForeignKey("data_type.type_id"), nullable=False)
+    value_count = Column(Integer)
     missing = Column(Integer)
     percent_missing = Column(Float)
     unique_count = Column(Integer)
     max_length = Column(Integer)
     min_length = Column(Integer)
     mean = Column(Float)
-    std = Column(Float)
+    stdev = Column(Float)
     min = Column(Float)
     perc25 = Column(Float)
     perc50 = Column(Float)
     perc75 = Column(Float)
     max = Column(Float)
     
-
 class DataType(Base):
     __tablename__ = "data_type"
     type_id = Column(Integer, Sequence('type_id_seq'), primary_key=True)

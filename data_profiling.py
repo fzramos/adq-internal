@@ -82,7 +82,7 @@ def data_profiling(file_path, type_threshold = 0.5):
         # if no int, float columns, creating empty summary stats columns for profile
         des = pd.DataFrame(columns=['mean', 'std', 'min', '25%', '50%', '75%', 'max'])
     # renaming percentage column headers
-    des.rename({'25%': 'perc25', '50%': 'perc50', '75%': 'perc75', 'std': 'stdev', 'min': 'minimum', 'max': 'maximum'}, axis=1, inplace=True)
+    des.rename({'25%': 'perc25', '50%': 'perc50', '75%': 'perc75', 'std': 'stdev'}, axis=1, inplace=True)
     result=result.set_index('Column Names').join(des)
     column_name=result.index.values
     result.insert(loc=0,column="column_name",value=column_name)

@@ -6,7 +6,7 @@ import os
 from db_url import create_db_url
 
 def main():
-    db_setup('sqlite')
+    db_setup('snowflake')
 
 def db_setup(db_type='snowflake'):
     db_url = create_db_url(db_type)

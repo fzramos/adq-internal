@@ -2,7 +2,6 @@ import pandas as pd
 # Imports SF Acct Sign-in Credentials
 from sfCredentials import acct
 # For Snowflake DB Connection
-from snowflake.sqlalchemy import URL
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 # models of tables for upload
