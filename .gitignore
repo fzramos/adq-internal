@@ -8,3 +8,4 @@ __pycache__
 alembic
 alembic.ini
 *.db
+clear_alembic.py

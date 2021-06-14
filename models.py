@@ -8,7 +8,7 @@ metadata = Base.metadata
 
 class DataProfile(Base):
     __tablename__ = "data_profile"
-    dp_id = Column(Integer, Sequence('dp_id_seq'), primary_key=True)
+    dp_id = Column(Integer, Sequence("dp_id_seq"), primary_key=True)
     user_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
@@ -18,7 +18,8 @@ class DataProfile(Base):
 
 class ColumnProfile(Base):
     __tablename__ = "column_profile"
-    cp_id = Column(Integer, Sequence('cp_id_seq'), primary_key=True)
+    cp_id = Column(Integer, Sequence("cp_id_seq"), primary_key=True)
+    # , server_default=cp_id_seq.next_value()
     dp_id = Column(Integer, ForeignKey("data_profile.dp_id"), nullable=False)
     column_name = Column(String(100))
     type_id = Column(Integer, ForeignKey("data_type.type_id"), nullable=False)
@@ -38,7 +39,7 @@ class ColumnProfile(Base):
     
 class DataType(Base):
     __tablename__ = "data_type"
-    type_id = Column(Integer, Sequence('type_id_seq'), primary_key=True)
+    type_id = Column(Integer, Sequence("type_id_seq"), primary_key=True)
     name = Column(String(8))
 
     # relationships
@@ -47,7 +48,7 @@ class DataType(Base):
 
 class User(Base):
     __tablename__ = "user"
-    user_id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    user_id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
     name = Column(Integer)
 
     # relationships

@@ -22,20 +22,15 @@ SNOWFLAKE_ACCOUNT=xxxxx
 SNOWFLAKE_USER=xxxxx
 SNOWFLAKE_PASSWORD=xxxx
 ```
-3. In your RDBMS of choice, create an empty database called ADQ
-    - for a Snowflake set-up
-        * See sql_commands.sql for necessary SQL commands
-    - for SQLite3 set-up
-        * Simply add an ADQ.db file to the project root
-4. If using Snowflake as your RDBMS, run run the "validate_conn.py" program to make sure the Snowflake account credentials in your .env file are valid
-3. In db_setup.py, change the line 6 argument to one of:
+3. If using Snowflake as your RDBMS, run run the "validate_conn.py" program to make sure the Snowflake account credentials in your .env file are valid
+4. In db_setup.py, change the line 6 argument to one of:
     - 'snowflake'
     - 'postgres'
     - 'sqlite'
-4. Run db_setup.py
-5. If this fails and you can't debug the issue, follow the instructions for "Manual Alembic Set-up". Alternatively, you can run the "sf_db_setup.sql" script in a new worksheet to get the landing databases, tables, and sequences set up for the program.
+5. Run db_setup.py
+6. If this fails and you can't debug the issue, follow the instructions for "Manual Alembic Set-up". Alternatively, you can run the "sf_db_setup.sql" script in a new worksheet to get the landing databases, tables, and sequences set up for the program.
 
-## PART 2: Create data drofiles and upload them to DB
+## PART 2: Create data profiles and upload them to DB
 1. Unzip retail_banking.zip for sample CSV table files
 2. Run "main.py" which both creates data profiles and uploads them to your RDBMS of choice.
 3. In your RDBMS, run some select statements to see if the data has been uploaded successfully. For example:
