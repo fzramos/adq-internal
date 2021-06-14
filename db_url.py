@@ -12,12 +12,12 @@ def create_db_url(db_type):
                 account = db_config.SNOWFLAKE_ACCOUNT,
                 user = db_config.SNOWFLAKE_USER,
                 password = db_config.SNOWFLAKE_PASSWORD,
-                database = 'ADQ',
+                database = 'ADQ6',
                 schema = 'PUBLIC',
                 warehouse = 'COMPUTE_WH',
                 role='SYSADMIN'
         )
-    if db_type == 'sqlite':
+    elif db_type == 'sqlite':
         db_url = url.make_url(f'sqlite:///{os.path.abspath(os.getcwd())}\ADQ.db')
     
     return db_url
