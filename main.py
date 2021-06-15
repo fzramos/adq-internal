@@ -10,7 +10,7 @@ def main():
 
     # Id of the user/owner of account that submitted this data for profiling
     # Assuming user id has already been added to User table
-    user_id = 0 
+    user_id = 0
 
     # creates data profile
     dp_df = data_profiling(file_path)

@@ -12,7 +12,7 @@ def create_db_url(db_type):
                 account = db_config.SNOWFLAKE_ACCOUNT,
                 user = db_config.SNOWFLAKE_USER,
                 password = db_config.SNOWFLAKE_PASSWORD,
-                database = 'ADQ6',
+                database = 'ADQ',
                 schema = 'PUBLIC',
                 warehouse = 'COMPUTE_WH',
                 role='SYSADMIN'

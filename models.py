@@ -7,7 +7,7 @@ Base = declarative_base()
 metadata = Base.metadata
 
 class DataProfile(Base):
-    __tablename__ = "data_profile"
+    __tablename__ = "data_profile" 
     dp_id = Column(Integer, Sequence("dp_id_seq"), primary_key=True)
     user_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
@@ -29,13 +29,13 @@ class ColumnProfile(Base):
     unique_count = Column(Integer)
     max_length = Column(Integer)
     min_length = Column(Integer)
-    mean = Column(Float)
+    avg = Column(Float)
     stdev = Column(Float)
-    min = Column(Float)
+    minimum = Column(Float)
     perc25 = Column(Float)
     perc50 = Column(Float)
     perc75 = Column(Float)
-    max = Column(Float)
+    maximum = Column(Float)
     
 class DataType(Base):
     __tablename__ = "data_type"
