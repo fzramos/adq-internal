@@ -19,5 +19,11 @@ def create_db_url(db_type):
         )
     elif db_type == 'sqlite':
         db_url = url.make_url(f'sqlite:///{os.path.abspath(os.getcwd())}\ADQ.db')
-    
+    elif db_type == 'postgres':
+        db_url = url.make_url(
+            f'postgres://{db_config.POSTGRES_USER}'\
+            + ':{db_config.POSTGRES_PASSWORD}@localhost'\
+            + ':5432/ADQ'
+        )
+    # postgres://user:secret@localhost:5432/mydatabasename 
     return db_url
