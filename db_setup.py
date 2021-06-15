@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 from models import DataType, User
 
 def main():
-    db_setup('snowflake')
+    db_setup('sqlite')
 
 def db_setup(db_type='snowflake'):
     if not os.path.isfile('alembic.ini'):
@@ -27,9 +27,6 @@ def db_setup(db_type='snowflake'):
             # try to create database ADQ
         except:
             print('Database ADQ already exists.')
-        # if not database_exists(simple_url): # Checks for the first time  
-        #     print('is it in!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-        #     create_database(simple_url)     # Create new DB    
 
         # Starting Alembic
         subprocess.run('alembic init alembic'.split(), text=True, check=True)
@@ -54,7 +51,7 @@ def db_setup(db_type='snowflake'):
             data[index_line] = '#target_metadata = None\n'
             f.seek(0)
             f.writelines(data)
-    # Set-up and upload models to database
+    # Set-up the upload of models to the database
     subprocess.run(['alembic', 'revision', '--autogenerate', '-m', '“First commit”'], text=True, check=True)
     # Creation of sequences for table indeces
     if db_type in ['snowflake', 'postgres']:
@@ -76,15 +73,16 @@ def db_setup(db_type='snowflake'):
 
             f.seek(0)
             f.writelines(data)
-    
+    # Uploading tables to database
     subprocess.run('alembic upgrade head'.split(), text=True, check=True)
 
     # TODO Upload initial data types and user 0 in user table
-    
+    initial_table_inserts(db_type)
+
 def first_substring(strings, substring):
     return next((i for i, string in enumerate(strings) if substring in string), -1)
 
-def inital_table_inserts(db_type):
+def initial_table_inserts(db_type):
     """
         Inserts the four possible data types into the data_type table and 
         inserts user 0 into the user table
@@ -95,18 +93,17 @@ def inital_table_inserts(db_type):
     session = sessionmaker(bind=engine)()
 
     try:
-        # Creating a new data profile row in the data_profile table
-        newProfile = DataProfile(user_id = user_id)
-        # Note, newProfile dp_id isn't created until commited since SF creates the value on insert
-        session.add(newProfile)
-
+        # Creating data types
+        session.add_all([
+            DataType(type_id=0, name='int'),
+            DataType(type_id=1, name='float'),
+            DataType(type_id=2, name='str'),
+            DataType(type_id=3, name='datetime'),
+            DataType(type_id=4, name='error')                                   
+        ])
+        session.add(User(user_id = 0, acct_number = 12345))
         session.commit()
-        
-        # Adding data profile rows to column_profile table with a new column of dp_id
-        # so rows are related by their new data profile id 
-        dp_df["dp_id"] = newProfile.dp_id
-        dp_df.to_sql('column_profile', engine, if_exists='append', index=False)
-        print("Data profile uploaded sucessfully.")
+        print("Database successfully set-up.")
     finally:
         # connection.close()
         engine.dispose()

@@ -49,7 +49,7 @@ class DataType(Base):
 class User(Base):
     __tablename__ = "user"
     user_id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
-    name = Column(Integer)
+    acct_number = Column(Integer)
 
     # relationships
     dp_id = relationship('DataProfile', backref='owner', lazy = True)

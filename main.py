@@ -6,7 +6,7 @@ def main():
     file_path = 'retail_banking/completedcard.csv'
     
     # RDBMS type: 'snowflake' OR 'sqlite'
-    db_type = 'snowflake'
+    db_type = 'sqlite'
 
     # Id of the user/owner of account that submitted this data for profiling
     # Assuming user id has already been added to User table
