@@ -10,7 +10,7 @@ class DataProfile(Base):
     __tablename__ = "data_profile"
     # dp_id_seq = Sequence("dp_id_seq")
     # dp_id = Column(Integer, dp_id_seq,  server_default=dp_id_seq.next_value(), primary_key=True)
-    dp_id = Column(Integer, Sequence("dp_id_seq"), primary_key=True)
+    dp_id = Column(Integer, Sequence("DP_ID_SEQ"), primary_key=True)
     user_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 

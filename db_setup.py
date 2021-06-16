@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 from models import DataType, User
 
 def main():
-    db_setup('sqlite')
+    db_setup('postgres')
 
 def db_setup(db_type='snowflake'):
     if not os.path.isfile('alembic.ini'):
@@ -19,14 +19,14 @@ def db_setup(db_type='snowflake'):
         # todo 
         if db_type == 'snowflake':
             simple_url = url.make_url(db_url.split('/PUBLIC')[0]) # only include location and db name
-        # try:
-        if db_type == 'snowflake':
-            create_database(simple_url)
-        else:
-            create_database(db_url)
+        try:
+            if db_type == 'snowflake':
+                create_database(simple_url)
+            else:
+                create_database(db_url)
             # try to create database ADQ
-        # except:
-        #     print('Database ADQ already exists.')
+        except:
+            print('Database ADQ already exists.')
 
         # Starting Alembic
         subprocess.run('alembic init alembic'.split(), text=True, check=True)
